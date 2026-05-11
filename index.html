@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Santander × Coforge — How a Mortgage Maturity Becomes a Designed 90-Day Experience</title>
+<meta name="description" content="A Coforge × Adobe perspective on how Content Supply Chain and Next Best Experience transform retention for Santander.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Coforge Design System tokens */
+  --navy-950:#082340; --navy-900:#0E1628; --navy-800:#1A2240;
+  --navy-700:#1A3558; --navy-600:#1D4094; --navy-500:#1E5BB8;
+  --navy-400:#5F8AC7; --navy-200:#CADCFC; --navy-100:#E0F2FE;
+
+  --orange-700:#C05020; --orange-600:#E8530A; --orange-500:#F15B40;
+  --orange-400:#F68B28; --orange-200:#FDEADF;
+
+  --green-600:#00857A; --green-500:#00A792; --green-400:#29D07C; --green-100:#D1FAE5;
+
+  --cat-purple:#7C3AED;  --cat-purple-bg:#EDE9FE;
+  --cat-cyan:#0891B2;    --cat-cyan-bg:#E0F2FE;
+  --cat-emerald:#059669; --cat-emerald-bg:#D1FAE5;
+  --cat-amber:#D97706;   --cat-amber-bg:#FEF3C7;
+  --cat-rose:#DB2777;    --cat-rose-bg:#FCE7F3;
+
+  --gray-900:#141414; --gray-800:#1E293B; --gray-700:#334155;
+  --gray-600:#505050; --gray-500:#64748B; --gray-400:#94A3B8;
+  --gray-300:#CBD5E1; --gray-200:#E2E8F0; --gray-100:#F4F6F8;
+  --gray-50:#FAFAFA;
+
+  /* Semantic */
+  --surface:#FFFFFF; --surface-sunken:#F4F6F8; --surface-muted:#FAFAFA;
+  --border-subtle:#E2E8F0; --border-default:#CBD5E1;
+  --text-primary:#082340; --text-secondary:#334155; --text-muted:#64748B;
+  --accent:#E8530A; --accent-hover:#C05020; --curve:#29D07C;
+
+  /* Santander reserved for customer-facing UI */
+  --santander-red:#EC0000; --santander-red-dark:#B30000;
+
+  --font-display:'Montserrat',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+
+  --shadow-sm:0 1px 2px rgb(8 35 64 / .06);
+  --shadow-md:0 2px 8px rgb(8 35 64 / .08), 0 1px 2px rgb(8 35 64 / .04);
+  --shadow-lg:0 8px 24px rgb(8 35 64 / .12), 0 2px 6px rgb(8 35 64 / .06);
+  --shadow-xl:0 16px 40px rgb(8 35 64 / .16), 0 4px 12px rgb(8 35 64 / .08);
+
+  --radius-sm:4px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-2xl:24px;
+}
+
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:var(--font-body);
+  font-size:16px; line-height:1.6;
+  color:var(--text-primary);
+  background:var(--surface);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:var(--surface-sunken); }
+::-webkit-scrollbar-thumb { background:var(--gray-300); border-radius:8px; }
+
+/* ─── Top navigation bar ─── */
+.topnav {
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border-subtle);
+  padding:14px 32px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brandlock { display:flex; align-items:center; gap:14px; }
+.coforge-mark {
+  font-family:var(--font-display);
+  font-size:22px; font-weight:800; letter-spacing:-.3px; color:var(--navy-950);
+}
+.coforge-mark .co { color:var(--orange-500); }
+.divider { width:1px; height:18px; background:var(--border-subtle); }
+.santander-mark {
+  width:24px; height:24px; border-radius:50%; background:var(--santander-red);
+  color:#fff; display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:13px;
+}
+.client-name {
+  font-size:14px; font-weight:600; color:var(--text-secondary);
+}
+.client-name .meta { color:var(--text-muted); font-weight:400; margin-left:4px; }
+
+.nav-progress {
+  display:flex; align-items:center; gap:14px;
+}
+.progress-text {
+  font-family:var(--font-body); font-size:12px;
+  color:var(--text-muted); font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.progress-bar {
+  width:120px; height:4px; background:var(--gray-200);
+  border-radius:9999px; overflow:hidden;
+}
+.progress-bar-fill {
+  height:100%; background:var(--accent);
+  width:0%; transition:width .25s ease-out;
+}
+
+/* ─── Sticky chapter nav (left rail on desktop) ─── */
+.chapter-nav {
+  position:fixed; left:24px; top:50%; transform:translateY(-50%);
+  z-index:40;
+  display:flex; flex-direction:column; gap:2px;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--border-subtle);
+  border-radius:14px;
+  padding:10px 6px;
+  box-shadow:var(--shadow-md);
+}
+.chapter-nav a {
+  display:flex; align-items:center; gap:10px;
+  padding:6px 10px; border-radius:8px;
+  text-decoration:none; color:var(--text-muted);
+  font-family:var(--font-body); font-size:12px; font-weight:500;
+  transition:all .18s ease-out;
+  white-space:nowrap;
+}
+.chapter-nav a:hover { color:var(--text-primary); background:var(--gray-100); }
+.chapter-nav a.active { color:var(--accent); background:var(--orange-200); }
+.chapter-nav .dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--gray-300);
+  flex-shrink:0;
+}
+.chapter-nav a.active .dot { background:var(--accent); }
+.chapter-nav a.done .dot { background:var(--text-primary); }
+.chapter-nav .label-text {
+  font-variant-numeric:tabular-nums;
+  opacity:0; transform:translateX(-4px);
+  transition:opacity .2s, transform .2s;
+  position:absolute; left:32px;
+  background:var(--navy-950); color:#fff;
+  padding:4px 10px; border-radius:6px;
+  pointer-events:none;
+  font-size:11.5px;
+}
+.chapter-nav a:hover .label-text {
+  opacity:1; transform:translateX(0);
+}
+
+@media (max-width:980px) {
+  .chapter-nav { display:none; }
+}
+
+/* ─── Layout containers ─── */
+.container { max-width:880px; margin:0 auto; padding:0 32px; }
+.container-narrow { max-width:720px; margin:0 auto; padding:0 32px; }
+.container-wide { max-width:1100px; margin:0 auto; padding:0 32px; }
+
+/* ─── Hero ─── */
+.hero {
+  background:var(--navy-600);
+  color:#fff;
+  padding:96px 0 88px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-curve {
+  position:absolute; top:0; right:0; width:55%; height:100%;
+  pointer-events:none; opacity:.9;
+}
+.hero-content {
+  position:relative; z-index:2;
+}
+.hero-eyebrow {
+  font-family:var(--font-body); font-size:12px; font-weight:600;
+  color:var(--curve); letter-spacing:3px; text-transform:uppercase;
+  margin-bottom:16px;
+}
+.hero h1 {
+  font-family:var(--font-display); font-weight:800;
+  font-size:60px; line-height:1.08; letter-spacing:-1px;
+  margin-bottom:20px; max-width:780px;
+}
+.hero h1 .accent { color:var(--curve); }
+.hero p {
+  font-size:18px; line-height:1.6; color:rgba(255,255,255,.78);
+  max-width:660px; margin-bottom:32px;
+}
+.hero-meta {
+  display:flex; gap:32px; padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.14);
+  flex-wrap:wrap;
+}
+.hero-meta-item { display:flex; align-items:center; gap:12px; }
+.hero-meta-item .icon { font-size:22px; }
+.hero-meta-item .k { font-family:var(--font-display); font-weight:700; font-size:16px; }
+.hero-meta-item .v { font-size:11.5px; color:rgba(255,255,255,.55); }
+
+/* ─── TL;DR card ─── */
+.tldr {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:32px;
+  margin:-44px auto 64px;
+  max-width:880px;
+  box-shadow:var(--shadow-lg);
+  position:relative; z-index:3;
+}
+.tldr-label {
+  font-family:var(--font-body); font-size:11px; font-weight:700;
+  color:var(--accent); letter-spacing:2.5px; text-transform:uppercase;
+  margin-bottom:14px;
+}
+.tldr h2 {
+  font-family:var(--font-display); font-weight:700; font-size:24px;
+  line-height:1.3; color:var(--text-primary);
+  margin-bottom:16px; letter-spacing:-.3px;
+}
+.tldr p {
+  font-size:16px; line-height:1.65; color:var(--text-secondary);
+}
+
+/* ─── Section ─── */
+section.chapter {
+  padding:80px 0;
+  border-top:1px solid var(--border-subtle);
+}
+section.chapter:first-of-type { border-top:none; }
+section.chapter.dark {
+  background:var(--surface-sunken);
+}
+section.chapter.navy {
+  background:var(--navy-950);
+  color:#fff;
+}
+section.chapter.navy .chapter-num { color:var(--curve); }
+section.chapter.navy h2 { color:#fff; }
+section.chapter.navy .chapter-body { color:rgba(255,255,255,.7); }
+
+.chapter-header {
+  margin-bottom:36px;
+}
+.chapter-num {
+  font-family:var(--font-body); font-variant-numeric:tabular-nums;
+  font-size:13px; font-weight:700; color:var(--accent);
+  letter-spacing:2px; text-transform:uppercase;
+  margin-bottom:8px;
+}
+.chapter-header h2 {
+  font-family:var(--font-display); font-weight:700;
+  font-size:40px; line-height:1.15; letter-spacing:-.5px;
+  color:var(--text-primary); margin-bottom:0;
+}
+.chapter-body {
+  font-size:17px; line-height:1.7; color:var(--text-secondary);
+  margin-bottom:32px;
+}
+.chapter-body p { margin-bottom:18px; }
+.chapter-body p:last-child { margin-bottom:0; }
+.chapter-body strong { color:var(--text-primary); font-weight:600; }
+.chapter-body em { color:var(--text-primary); font-style:italic; font-weight:500; }
+
+/* ─── Takeaway box ─── */
+.takeaway {
+  display:flex; gap:16px; align-items:flex-start;
+  background:var(--orange-200);
+  border-left:4px solid var(--accent);
+  border-radius:var(--radius-md);
+  padding:20px 24px;
+  margin-top:32px;
+}
+.takeaway .icon { font-size:22px; line-height:1; flex-shrink:0; }
+.takeaway-content {
+  font-family:var(--font-body); flex:1;
+}
+.takeaway-label {
+  font-size:11px; font-weight:700; color:var(--accent);
+  letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:4px;
+}
+.takeaway-text {
+  font-size:15px; line-height:1.55; color:var(--text-secondary);
+}
+.takeaway-text strong { color:var(--text-primary); font-weight:600; }
+
+/* For navy sections */
+section.chapter.navy .takeaway {
+  background:rgba(232,83,10,.12);
+  border-left-color:var(--curve);
+}
+section.chapter.navy .takeaway-label { color:var(--curve); }
+section.chapter.navy .takeaway-text { color:rgba(255,255,255,.85); }
+section.chapter.navy .takeaway-text strong { color:#fff; }
+
+/* ─── Visual artifacts ─── */
+.artifact {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  margin-top:32px;
+}
+.artifact-caption {
+  font-family:var(--font-body); font-size:13px;
+  color:var(--text-muted); text-align:center;
+  margin-top:14px; font-style:italic;
+}
+
+/* ─── Two-engine cards ─── */
+.engines-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  margin-top:32px;
+}
+.engine-card {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:28px;
+  box-shadow:var(--shadow-sm);
+}
+.engine-card .icon-badge {
+  width:48px; height:48px; border-radius:12px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:24px; margin-bottom:16px;
+}
+.engine-card.nbx .icon-badge { background:var(--cat-amber-bg); }
+.engine-card.csc .icon-badge { background:var(--cat-purple-bg); }
+.engine-card .tag {
+  display:inline-block;
+  font-family:var(--font-body); font-size:11px; font-weight:700;
+  letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:6px;
+}
+.engine-card.nbx .tag { color:var(--cat-amber); }
+.engine-card.csc .tag { color:var(--cat-purple); }
+.engine-card h3 {
+  font-family:var(--font-display); font-weight:700;
+  font-size:22px; line-height:1.2; letter-spacing:-.2px;
+  color:var(--text-primary); margin-bottom:12px;
+}
+.engine-card p {
+  font-size:15px; line-height:1.6; color:var(--text-secondary);
+  margin-bottom:14px;
+}
+.engine-card .quote {
+  font-style:italic; font-size:14px; color:var(--text-muted);
+  background:var(--surface-sunken);
+  padding:12px 14px; border-radius:var(--radius-md);
+}
+.engine-card .powered {
+  font-size:12px; color:var(--text-muted); margin-top:14px;
+}
+
+/* ─── Customer profile ─── */
+.customer-card {
+  display:grid; grid-template-columns:auto 1fr;
+  gap:24px; align-items:center;
+  background:var(--navy-100);
+  border:1px solid var(--navy-200);
+  border-radius:var(--radius-xl);
+  padding:24px 28px;
+  margin-top:32px;
+}
+.maturity-ring {
+  position:relative; width:120px; height:120px; flex-shrink:0;
+}
+.maturity-ring svg { transform:rotate(-90deg); }
+.maturity-ring .center {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.maturity-ring .days {
+  font-family:var(--font-display); font-size:32px; font-weight:800;
+  color:var(--santander-red); line-height:1;
+}
+.maturity-ring .label {
+  font-family:var(--font-body); font-size:10px; font-weight:600;
+  color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase;
+  margin-top:4px;
+}
+.customer-name {
+  font-family:var(--font-display); font-weight:700; font-size:22px;
+  color:var(--text-primary); margin-bottom:4px;
+}
+.customer-meta {
+  font-size:14px; color:var(--text-secondary);
+  margin-bottom:10px;
+}
+.customer-stats {
+  display:flex; gap:18px; flex-wrap:wrap;
+}
+.customer-stats .stat {
+  font-size:13px; color:var(--text-secondary);
+}
+.customer-stats .stat strong {
+  display:block; font-family:var(--font-display);
+  font-weight:700; font-size:18px; color:var(--text-primary);
+}
+
+/* ─── Signal grid (S2) ─── */
+.signals-grid {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+  margin-top:32px;
+}
+.signal-col {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  padding:20px;
+}
+.signal-col-header {
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:14px; padding-bottom:12px;
+  border-bottom:1px solid var(--border-subtle);
+}
+.signal-col-header .badge {
+  font-family:var(--font-body); font-size:10px; font-weight:700;
+  letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 8px; border-radius:6px;
+}
+.signal-col.quant .badge { background:var(--cat-cyan-bg); color:var(--cat-cyan); }
+.signal-col.qual .badge  { background:var(--cat-purple-bg); color:var(--cat-purple); }
+.signal-col.model .badge { background:var(--cat-amber-bg); color:var(--cat-amber); }
+.signal-col h4 {
+  font-family:var(--font-display); font-size:14px; font-weight:700;
+  color:var(--text-primary);
+}
+.signal-row {
+  display:flex; justify-content:space-between; padding:8px 0;
+  border-bottom:1px solid var(--border-subtle);
+  font-size:13px;
+}
+.signal-row:last-child { border-bottom:none; }
+.signal-row .k { color:var(--text-muted); font-weight:500; }
+.signal-row .v { color:var(--text-primary); font-weight:600; text-align:right; }
+
+/* ─── Decisioning stack ─── */
+.stack-layers {
+  display:flex; flex-direction:column; gap:10px;
+  margin-top:32px;
+}
+.stack-layer {
+  display:flex; align-items:center; gap:16px;
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+}
+.stack-layer .num {
+  width:36px; height:36px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:15px;
+  color:#fff; flex-shrink:0;
+}
+.stack-layer:nth-child(1) .num { background:var(--cat-rose); }
+.stack-layer:nth-child(2) .num { background:var(--cat-amber); }
+.stack-layer:nth-child(3) .num { background:var(--cat-purple); }
+.stack-layer:nth-child(4) .num { background:var(--green-500); }
+.stack-layer h4 {
+  font-family:var(--font-display); font-size:15px; font-weight:700;
+  color:var(--text-primary); margin-bottom:2px;
+}
+.stack-layer p { font-size:13.5px; color:var(--text-secondary); margin:0; }
+
+/* ─── CSC ribbon (S4) ─── */
+.csc-ribbon {
+  display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;
+  margin-top:32px;
+}
+.csc-block {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  padding:18px 14px; text-align:center;
+}
+.csc-block.featured {
+  background:var(--cat-purple-bg);
+  border-color:var(--cat-purple);
+}
+.csc-block .icon { font-size:24px; margin-bottom:8px; }
+.csc-block h5 {
+  font-family:var(--font-display); font-size:13px; font-weight:700;
+  color:var(--text-primary); margin-bottom:4px;
+}
+.csc-block .tools { font-size:11px; color:var(--text-muted); font-weight:500; }
+
+/* ─── Email mock (S5/S7/S9) ─── */
+.email-mock {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  margin-top:24px;
+}
+.email-mock-head {
+  background:var(--surface-sunken);
+  padding:12px 20px;
+  border-bottom:1px solid var(--border-subtle);
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:12px; color:var(--text-muted);
+}
+.email-mock-body { padding:28px; }
+.email-mock-from { display:flex; align-items:center; gap:10px; margin-bottom:14px; font-size:13px; color:var(--text-muted); }
+.email-mock-from .logo {
+  width:24px; height:24px; border-radius:50%; background:var(--santander-red);
+  color:#fff; display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:12px;
+}
+.email-mock-eyebrow {
+  font-family:var(--font-body); font-size:11px; font-weight:700;
+  color:var(--cat-amber); letter-spacing:2px; text-transform:uppercase;
+  margin-bottom:10px;
+}
+.email-mock h3 {
+  font-family:var(--font-display); font-size:22px; font-weight:700;
+  line-height:1.3; color:var(--text-primary); margin-bottom:14px;
+  letter-spacing:-.2px;
+}
+.email-mock-text {
+  font-size:15px; line-height:1.65; color:var(--text-secondary);
+  margin-bottom:18px;
+}
+.email-mock-cta {
+  display:inline-block; background:var(--santander-red);
+  color:#fff; padding:11px 26px; border-radius:var(--radius-md);
+  font-family:var(--font-display); font-weight:700; font-size:14px;
+  text-decoration:none;
+}
+.email-mock-fineprint {
+  margin-top:18px; font-size:11px; color:var(--text-muted);
+  line-height:1.5;
+}
+.email-tags {
+  display:flex; gap:6px; flex-wrap:wrap; margin-top:16px;
+  padding-top:16px; border-top:1px solid var(--border-subtle);
+}
+.email-tag {
+  font-size:11px; font-weight:600; color:var(--cat-purple);
+  background:var(--cat-purple-bg);
+  padding:3px 10px; border-radius:9999px;
+}
+.email-tag.green { color:var(--green-600); background:var(--green-100); }
+.email-tag.amber { color:var(--cat-amber); background:var(--cat-amber-bg); }
+
+/* ─── Touchpoint trio (S9) ─── */
+.trio {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;
+  margin-top:32px;
+}
+.trio-card {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.trio-card-head {
+  padding:10px 16px; color:#fff; font-size:11.5px;
+  font-family:var(--font-body); font-weight:700; letter-spacing:1.2px;
+}
+.trio-card.email .trio-card-head { background:var(--cat-purple); }
+.trio-card.app .trio-card-head { background:var(--navy-600); }
+.trio-card.branch .trio-card-head { background:var(--cat-amber); }
+.trio-card-body { padding:18px; }
+.trio-card-body h5 {
+  font-family:var(--font-display); font-size:14px; font-weight:700;
+  color:var(--text-primary); margin-bottom:8px; line-height:1.3;
+}
+.trio-card-body p {
+  font-size:13px; line-height:1.55; color:var(--text-secondary);
+  margin-bottom:10px;
+}
+
+/* ─── Governance (S6) ─── */
+.gate-list {
+  display:flex; flex-direction:column; gap:12px;
+  margin-top:32px;
+}
+.gate {
+  display:flex; align-items:center; gap:14px;
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  padding:14px 18px;
+}
+.gate-num {
+  width:32px; height:32px; border-radius:50%;
+  background:var(--green-500); color:#fff;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:14px;
+  flex-shrink:0;
+}
+.gate h4 {
+  font-family:var(--font-display); font-size:14.5px; font-weight:700;
+  color:var(--text-primary); margin-bottom:2px;
+}
+.gate p { font-size:13px; color:var(--text-secondary); margin:0; }
+.gate-tag {
+  font-size:11px; font-weight:600;
+  padding:3px 10px; border-radius:9999px;
+  background:var(--green-100); color:var(--green-600);
+  margin-left:auto; flex-shrink:0;
+}
+
+/* ─── Metric grid (S11) ─── */
+.metrics {
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;
+  margin-top:32px;
+}
+.metric {
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:24px 20px; text-align:center;
+}
+.metric .label {
+  font-family:var(--font-body); font-size:11px; font-weight:700;
+  color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:10px;
+}
+.metric .value {
+  font-family:var(--font-display); font-weight:800; font-size:42px;
+  line-height:1; letter-spacing:-1px; margin-bottom:6px;
+}
+.metric.green .value { color:var(--green-500); }
+.metric.purple .value { color:var(--cat-purple); }
+.metric.amber .value { color:var(--cat-amber); }
+.metric.curve .value { color:var(--curve); }
+.metric .sub {
+  font-size:11.5px; color:var(--text-muted);
+  line-height:1.4;
+}
+
+/* ─── Suppression list (S10) ─── */
+.suppression {
+  display:flex; flex-direction:column; gap:8px; margin-top:24px;
+}
+.supp-row {
+  display:flex; justify-content:space-between; align-items:center;
+  background:var(--surface);
+  border:1px solid var(--border-subtle);
+  border-left:4px solid var(--cat-rose);
+  border-radius:var(--radius-md);
+  padding:12px 16px;
+}
+.supp-row .label {
+  font-family:var(--font-display); font-size:14px; font-weight:600;
+  color:var(--text-primary);
+}
+.supp-row .label .icon { margin-right:8px; }
+.supp-row .status {
+  font-family:var(--font-body); font-size:11px; font-weight:700;
+  color:var(--cat-rose); background:var(--cat-rose-bg);
+  padding:4px 10px; border-radius:9999px;
+}
+
+/* ─── Renewal celebration (S10) ─── */
+.celebration {
+  background:linear-gradient(135deg, var(--green-100), #fff);
+  border:2px solid var(--green-500);
+  border-radius:var(--radius-xl);
+  padding:32px;
+  text-align:center;
+  margin-top:24px;
+}
+.celebration .emoji { font-size:40px; margin-bottom:12px; }
+.celebration h3 {
+  font-family:var(--font-display); font-size:24px; font-weight:700;
+  color:var(--green-600); margin-bottom:8px; letter-spacing:-.3px;
+}
+.celebration p {
+  font-size:15px; color:var(--text-secondary);
+}
+.celebration p strong { color:var(--text-primary); }
+
+/* ─── CTA / footer ─── */
+.cta-block {
+  background:var(--navy-600);
+  color:#fff;
+  border-radius:var(--radius-2xl);
+  padding:56px 48px;
+  margin:64px auto;
+  max-width:880px;
+  position:relative;
+  overflow:hidden;
+}
+.cta-block svg.curve {
+  position:absolute; top:0; right:0; width:50%; height:100%;
+  opacity:.7;
+}
+.cta-block-content { position:relative; z-index:2; }
+.cta-block .eyebrow {
+  font-size:11px; font-weight:700; color:var(--curve);
+  letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;
+}
+.cta-block h2 {
+  font-family:var(--font-display); font-weight:800; font-size:36px;
+  line-height:1.18; margin-bottom:18px; letter-spacing:-.5px;
+  max-width:620px;
+}
+.cta-block h2 .accent { color:var(--curve); }
+.cta-block p {
+  font-size:16px; line-height:1.6; color:rgba(255,255,255,.7);
+  max-width:560px; margin-bottom:28px;
+}
+.cta-button {
+  display:inline-block;
+  background:var(--accent); color:#fff;
+  padding:14px 32px; border-radius:var(--radius-md);
+  font-family:var(--font-display); font-weight:700; font-size:15px;
+  text-decoration:none;
+  box-shadow:var(--shadow-md);
+  transition:all .18s ease-out;
+}
+.cta-button:hover { background:var(--accent-hover); transform:translateY(-1px); box-shadow:var(--shadow-lg); }
+.cta-button .arrow { display:inline-block; margin-left:8px; transition:transform .18s; }
+.cta-button:hover .arrow { transform:translateX(4px); }
+
+footer {
+  padding:36px 32px;
+  text-align:center;
+  font-size:13px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border-subtle);
+}
+footer .brand {
+  font-family:var(--font-display); font-weight:700; font-size:14px;
+  color:var(--text-primary); margin-bottom:6px;
+}
+footer .brand .co { color:var(--orange-500); }
+
+/* ─── Reveal-on-scroll animation ─── */
+.reveal {
+  opacity:0; transform:translateY(20px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ─── Responsive ─── */
+@media (max-width:740px) {
+  .hero { padding:64px 0 56px; }
+  .hero h1 { font-size:40px; }
+  .hero p { font-size:16px; }
+  .tldr { margin:-32px 16px 48px; padding:24px; }
+  .tldr h2 { font-size:20px; }
+  .chapter-header h2 { font-size:28px; }
+  .engines-grid, .signals-grid, .csc-ribbon, .trio, .metrics {
+    grid-template-columns:1fr;
+  }
+  .csc-ribbon { grid-template-columns:repeat(2, 1fr); }
+  .metrics { grid-template-columns:repeat(2, 1fr); }
+  .topnav { padding:12px 16px; }
+  .nav-progress .progress-bar { width:80px; }
+  .client-name { font-size:12px; }
+  .cta-block { padding:36px 28px; margin:48px 16px; }
+  .cta-block h2 { font-size:24px; }
+  .customer-card { grid-template-columns:1fr; text-align:center; }
+  .maturity-ring { margin:0 auto; }
+}
+
+@media (max-width:1280px) and (min-width:981px) {
+  .chapter-nav { left:12px; }
+  .chapter-nav a { padding:5px 8px; font-size:11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Top nav ─── -->
+<header class="topnav">
+  <div class="brandlock">
+    <span class="coforge-mark"><span class="co">co</span>forge</span>
+    <span class="divider"></span>
+    <span class="santander-mark">S</span>
+    <span class="client-name">Santander <span class="meta">· Adobe GenStudio + AJO · Mortgage Renewal</span></span>
+  </div>
+  <div class="nav-progress">
+    <span class="progress-text" id="progress-text">Step 00 of 11</span>
+    <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+  </div>
+</header>
+
+<!-- ─── Chapter nav (sticky left rail) ─── -->
+<nav class="chapter-nav" id="chapter-nav">
+  <a href="#hero"  data-step="0"><span class="dot"></span><span class="label-text">Intro</span></a>
+  <a href="#s1"  data-step="1"><span class="dot"></span><span class="label-text">01 · The Moment</span></a>
+  <a href="#s2"  data-step="2"><span class="dot"></span><span class="label-text">02 · Signal Capture</span></a>
+  <a href="#s3"  data-step="3"><span class="dot"></span><span class="label-text">03 · NBX Decisioning</span></a>
+  <a href="#s4"  data-step="4"><span class="dot"></span><span class="label-text">04 · CSC Handoff</span></a>
+  <a href="#s5"  data-step="5"><span class="dot"></span><span class="label-text">05 · AI Content Studio</span></a>
+  <a href="#s6"  data-step="6"><span class="dot"></span><span class="label-text">06 · Governance</span></a>
+  <a href="#s7"  data-step="7"><span class="dot"></span><span class="label-text">07 · T-90 Reassurance</span></a>
+  <a href="#s8"  data-step="8"><span class="dot"></span><span class="label-text">08 · T-45 Escalation</span></a>
+  <a href="#s9"  data-step="9"><span class="dot"></span><span class="label-text">09 · T-15 Decision</span></a>
+  <a href="#s10" data-step="10"><span class="dot"></span><span class="label-text">10 · Renewal</span></a>
+  <a href="#s11" data-step="11"><span class="dot"></span><span class="label-text">11 · Measurement</span></a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="hero">
+  <svg class="hero-curve" viewBox="0 0 600 600" preserveAspectRatio="none">
+    <path d="M 600 80 Q 380 140 320 360 T 200 600" fill="none" stroke="var(--curve)" stroke-width="3" opacity=".85"/>
+    <circle cx="320" cy="360" r="6" fill="var(--curve)"/>
+  </svg>
+  <div class="container hero-content">
+    <div class="hero-eyebrow">Digital Experience Transformation · CSC + NBX</div>
+    <h1>How a <span class="accent">mortgage maturity</span> becomes a designed 90-day experience.</h1>
+    <p>One Santander customer. Eleven moves. Two engines working together — Adobe Journey Optimizer deciding the next experience, GenStudio producing the content. This is what retention looks like when content and decisioning move at the speed of the customer's mindset.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span class="icon">⏱</span><div><div class="k">~8 min read</div><div class="v">Scroll or jump via nav</div></div></div>
+      <div class="hero-meta-item"><span class="icon">📊</span><div><div class="k">11 sections</div><div class="v">Signal → outcome</div></div></div>
+      <div class="hero-meta-item"><span class="icon">🎯</span><div><div class="k">1 customer</div><div class="v">End-to-end arc</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TL;DR ─── -->
+<div class="container">
+  <div class="tldr reveal">
+    <div class="tldr-label">In one paragraph</div>
+    <h2>Today, a mortgage maturity is handled as one generic email. Treated as a 90-day arc instead, it becomes the highest-value retention window in the bank.</h2>
+    <p>This story walks through how — for <strong>María González Ruiz, a fictional persona representing a typical affluent Santander mortgage customer</strong> — we move from a single email to a coordinated arc across email, mobile app, and her branch Relationship Manager. Each touchpoint personalized, on-brand, compliance-checked, and orchestrated to her actual mindset on the day.</p>
+    <p style="margin-top:18px;padding:14px 18px;background:var(--navy-100);border-radius:var(--radius-md);border-left:3px solid var(--navy-500);font-size:14px;color:var(--text-secondary);">
+      <strong style="color:var(--navy-600);">Context:</strong> Banco Santander selected Adobe Experience Cloud in 2020. This isn't a platform sell — it's an operating-model evolution on a foundation Santander already owns.
+    </p>
+  </div>
+</div>
+
+<!-- ─── FS Reference stats — published Adobe research ─── -->
+<div class="container" style="margin-top:24px;margin-bottom:32px;">
+  <div class="reveal" style="background:var(--surface);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:32px;box-shadow:var(--shadow-sm);">
+    <div style="font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;">
+      The Financial Services baseline
+    </div>
+    <h3 style="font-family:var(--font-display);font-weight:700;font-size:22px;line-height:1.3;color:var(--text-primary);margin-bottom:18px;letter-spacing:-.2px;">
+      Why every bank's marketing leadership is having this conversation right now.
+    </h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;">
+      <div>
+        <div style="font-family:var(--font-display);font-weight:800;font-size:32px;color:var(--cat-purple);line-height:1;">74%</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">of FS execs say customers expect personalized interaction</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-weight:800;font-size:32px;color:var(--cat-amber);line-height:1;">36%</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">of the customer journey is currently personalized</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-weight:800;font-size:32px;color:var(--cat-cyan);line-height:1;">90%</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">of FS marketing leaders expected to directly contribute to revenue</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-weight:800;font-size:32px;color:var(--green-500);line-height:1;">8%</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4;">of FS firms have fully integrated, accessible customer data</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);font-style:italic;padding-top:14px;border-top:1px solid var(--border-subtle);">
+      Source: Adobe 2025 State of Customer Experience in Financial Services (Incisiv, Q2 2025, n=518 FS leaders, 9 markets).
+    </div>
+  </div>
+</div>
+
+<!-- ─── 01 · The Moment ─── -->
+<section class="chapter" id="s1" data-step="1">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 01</div>
+      <h2>The moment that's worth €42,800.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>María González Ruiz lives in Madrid. She's 41, has banked with Santander for 9 years, and her €187,400 mortgage matures in exactly 90 days. Her current rate — 3.85%, variable, tied to EURIBOR — is about to renegotiate. NPS 8. Lifetime value at risk: <strong>€42,800</strong>.</p>
+      <p>The signals are already there. In the last twelve days, she's opened Santander's mobile app fourteen times, dwelled an average of four minutes on the rate-switching page on Santander.es, and read the rate-comparison article in the mortgage section twice. The race isn't whether someone will talk to her about her mortgage. It's <em>who reaches her with the right tone, at the right moment</em>.</p>
+    </div>
+
+    <div class="customer-card reveal">
+      <div class="maturity-ring">
+        <svg width="120" height="120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--gray-200)" stroke-width="7"/>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--santander-red)" stroke-width="7"
+                  stroke-dasharray="326.7" stroke-dashoffset="81.7" stroke-linecap="round"/>
+        </svg>
+        <div class="center">
+          <div class="days">90</div>
+          <div class="label">days left</div>
+        </div>
+      </div>
+      <div>
+        <div class="customer-name">María González Ruiz</div>
+        <div class="customer-meta">Madrid · 41 · Affluent family · 9-yr customer · NPS 8</div>
+        <div class="customer-stats">
+          <div class="stat"><strong>€187,400</strong>outstanding</div>
+          <div class="stat"><strong>3.85%</strong>variable rate</div>
+          <div class="stat"><strong>€42,800</strong>LTV at risk</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">A maturity isn't a single point in time. It's a <strong>90-day window</strong> across three emotional stages — complacency, comparison, decision. The right experience must shift with her mindset, not stay locked to a calendar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 02 · Signal Capture ─── -->
+<section class="chapter dark" id="s2" data-step="2">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 02 · The setup</div>
+      <h2>Signals from everywhere converge into one María.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>Adobe Experience Platform unifies thirteen signals across three layers. Quantitative: what she's doing — clicks, dwell, transactions. Qualitative: what she's <em>feeling</em> — modeled mindset, likely barriers, life events. Modeled: what's likely to happen — churn propensity, expected lift, channel responsiveness.</p>
+      <p>Most retention programmes work with quantitative signals only. Adding the qualitative layer is what makes the next move feel like a response — not a campaign.</p>
+    </div>
+
+    <div class="reveal" style="display:flex;gap:12px;align-items:flex-start;padding:14px 18px;margin-top:8px;margin-bottom:24px;background:var(--surface);border:1px dashed var(--border-default);border-radius:var(--radius-md);">
+      <span style="font-size:14px;line-height:1.4;flex-shrink:0;color:var(--text-muted);font-family:var(--font-body);font-weight:700;">📌</span>
+      <div style="font-size:13px;line-height:1.6;color:var(--text-secondary);">
+        <strong style="color:var(--text-primary);">A note on the timeline.</strong> Throughout this story, <code style="font-family:var(--font-body);font-weight:600;color:var(--accent);background:var(--orange-200);padding:1px 6px;border-radius:4px;">T-90</code>, <code style="font-family:var(--font-body);font-weight:600;color:var(--accent);background:var(--orange-200);padding:1px 6px;border-radius:4px;">T-45</code>, <code style="font-family:var(--font-body);font-weight:600;color:var(--accent);background:var(--orange-200);padding:1px 6px;border-radius:4px;">T-15</code> and similar markers count down toward María's mortgage maturity date — so <strong>T-90 means ninety days before maturity, T-12 means twelve days before</strong>. The arc itself ends when she renews (in her case, three days early, at T-12).
+      </div>
+    </div>
+
+    <div class="signals-grid reveal">
+      <div class="signal-col quant">
+        <div class="signal-col-header"><span class="badge">Quantitative</span></div>
+        <h4>Behavioral · Transactional</h4>
+        <div class="signal-row"><span class="k">Mortgage maturity</span><span class="v">T-90 days</span></div>
+        <div class="signal-row"><span class="k">App opens (30d)</span><span class="v">14 sessions</span></div>
+        <div class="signal-row"><span class="k">Web visit</span><span class="v">/cambio-de-tipo</span></div>
+        <div class="signal-row"><span class="k">Rate comparison page</span><span class="v">2 visits · 8 min total</span></div>
+      </div>
+      <div class="signal-col qual">
+        <div class="signal-col-header"><span class="badge">Qualitative</span></div>
+        <h4>Mindset · Barriers</h4>
+        <div class="signal-row"><span class="k">Mindset signal</span><span class="v">Doubt → Compare</span></div>
+        <div class="signal-row"><span class="k">Likely barrier</span><span class="v">Rate uncertainty</span></div>
+        <div class="signal-row"><span class="k">Life event</span><span class="v">Home upgrade</span></div>
+        <div class="signal-row"><span class="k">Channel pref.</span><span class="v">App + Email · ES</span></div>
+      </div>
+      <div class="signal-col model">
+        <div class="signal-col-header"><span class="badge">Modeled</span></div>
+        <h4>Propensity · Lift</h4>
+        <div class="signal-row"><span class="k">Churn propensity</span><span class="v">0.71 — High</span></div>
+        <div class="signal-row"><span class="k">Renewal lift</span><span class="v">+25-40% modeled</span></div>
+        <div class="signal-row"><span class="k">Best channel</span><span class="v">Email → App</span></div>
+        <div class="signal-row"><span class="k">Best moment</span><span class="v">09:00 Mon/Wed</span></div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">Quantitative signals tell you <em>what</em> a customer is doing. Qualitative mindset signals tell you <em>why</em>. The retention arc only works when both layers feed into the next decision.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 03 · NBX Decisioning ─── -->
+<section class="chapter" id="s3" data-step="3">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 03 · The setup</div>
+      <h2>NBX isn't one model. It's a four-layer stack.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>Adobe Journey Optimizer runs a stack of decisions in sequence. Deterministic rules check eligibility. Probabilistic models score propensity. A contextual bandit picks the arc with highest expected lift. Guardrails enforce compliance and brand on every output.</p>
+      <p>For María, the stack selects a three-phase arc: <strong>Reassurance</strong> (T-90 to T-60) → <strong>Comparison</strong> (T-60 to T-30) → <strong>Decision</strong> (T-30 to T-15). Same customer, three tones, three moments.</p>
+    </div>
+
+    <div class="stack-layers reveal">
+      <div class="stack-layer">
+        <div class="num">1</div>
+        <div>
+          <h4>Eligibility — deterministic</h4>
+          <p>Hard rules: maturity window, product holdings, opt-ins, exclusion lists.</p>
+        </div>
+      </div>
+      <div class="stack-layer">
+        <div class="num">2</div>
+        <div>
+          <h4>Propensity — probabilistic</h4>
+          <p>Churn likelihood, channel response, time-of-day responsiveness.</p>
+        </div>
+      </div>
+      <div class="stack-layer">
+        <div class="num">3</div>
+        <div>
+          <h4>Arm selection — contextual bandit</h4>
+          <p>Pick the experience arc with highest expected lift for this mindset.</p>
+        </div>
+      </div>
+      <div class="stack-layer">
+        <div class="num">4</div>
+        <div>
+          <h4>Guardrails — governance</h4>
+          <p>Compliance disclosures, brand checks, frequency caps, regulatory tags.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">In banking, every decision must be <strong>explainable</strong>. Rules give regulators the "why qualified." Propensity gives marketing the lift. Guardrails keep both within brand and compliance. One layer alone is never enough.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 04 · CSC Handoff ─── -->
+<section class="chapter dark" id="s4" data-step="4">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 04 · The production</div>
+      <h2>NBX writes the brief. CSC produces the content.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>The decision NBX just made becomes a structured brief into Adobe GenStudio. Four audience variants × three channels × two stages — roughly <strong>190 individual content pieces</strong>, each one specified, branded, and compliance-tagged before anything is created.</p>
+      <p>At human-only velocity, producing 190 governed, multi-language assets takes weeks. With CSC, it takes hours.</p>
+    </div>
+
+    <div class="engines-grid reveal">
+      <div class="engine-card nbx">
+        <div class="icon-badge">🧭</div>
+        <div class="tag">NBX</div>
+        <h3>Next Best Experience</h3>
+        <p>The <strong>decisioning brain</strong>. Reads every signal — what she's doing, what she's feeling — and decides the right segment, moment, channel, and message.</p>
+        <div class="quote">"What should we do next, and for whom, and when?"</div>
+        <div class="powered">Adobe Journey Optimizer · AEP</div>
+      </div>
+      <div class="engine-card csc">
+        <div class="icon-badge">✨</div>
+        <div class="tag">CSC</div>
+        <h3>Content Supply Chain</h3>
+        <p>The <strong>production engine</strong>. Turns every NBX decision into on-brand, governed content — at the speed and scale the arc demands.</p>
+        <div class="quote">"Now produce 24 personalized variants — on brand, compliant, in hours."</div>
+        <div class="powered">Adobe GenStudio · Firefly · Workfront · AEM Assets</div>
+      </div>
+    </div>
+
+    <div class="csc-ribbon reveal" style="margin-top:40px;">
+      <div class="csc-block">
+        <div class="icon">🗂</div>
+        <h5>Workflow</h5>
+        <div class="tools">Workfront</div>
+      </div>
+      <div class="csc-block featured">
+        <div class="icon">✨</div>
+        <h5>Creation</h5>
+        <div class="tools">Firefly · Express</div>
+      </div>
+      <div class="csc-block">
+        <div class="icon">📦</div>
+        <h5>Asset Mgmt.</h5>
+        <div class="tools">AEM Assets</div>
+      </div>
+      <div class="csc-block">
+        <div class="icon">🚀</div>
+        <h5>Delivery</h5>
+        <div class="tools">AJO · Target</div>
+      </div>
+      <div class="csc-block">
+        <div class="icon">📈</div>
+        <h5>Insights</h5>
+        <div class="tools">Content Analytics</div>
+      </div>
+    </div>
+    <div class="artifact-caption">The five blocks of the Content Supply Chain</div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">Hyper-personalisation only becomes feasible — not as a slogan, but as a <strong>daily operating model</strong> — when content production catches up to decisioning velocity. That's the gap CSC closes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 05 · AI Content Studio ─── -->
+<section class="chapter" id="s5" data-step="5">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 05 · The production</div>
+      <h2>Three tones, three moments — one customer, all in hours.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>Inside GenStudio, Firefly composes María's email variants from the structured brief. Same customer, same brand, three distinct tones — Reassurance for T-90, Comparison for T-60, Decision for T-15. Each variant in Castilian Spanish, with the APR disclosure automatically inserted, brand checks enforced on every line.</p>
+      <p>The output below is the <em>Reassurance</em> variant — what María actually sees on day one.</p>
+    </div>
+
+    <div class="email-mock reveal">
+      <div class="email-mock-head">
+        <span>📧 Bandeja de entrada · m.gonzalez.ruiz@gmail.com</span>
+        <span style="color:var(--cat-amber);font-weight:600;">T-90</span>
+      </div>
+      <div class="email-mock-body">
+        <div class="email-mock-from">
+          <span class="logo">S</span>
+          <span>De: hipoteca@santander.es · 09:00</span>
+        </div>
+        <div class="email-mock-eyebrow">Su hipoteca · 90 días para la renovación</div>
+        <h3>María, su hipoteca llega a su cita más importante en 3 meses.</h3>
+        <div class="email-mock-text">
+          Antes de pensar en cambios, conversemos. Sin prisa, sin presión.<br><br>
+          Llevamos 9 años acompañándola. Queremos que esta renovación sea suya, no nuestra. Empecemos por entender qué ha cambiado en su vida y en sus prioridades — y desde ahí, miramos juntos las opciones.
+        </div>
+        <a href="#" class="email-mock-cta">Ver mi hipoteca →</a>
+        <div class="email-tags">
+          <span class="email-tag">Personalizado: María</span>
+          <span class="email-tag">9 años cliente</span>
+          <span class="email-tag amber">Tono: Reassurance</span>
+          <span class="email-tag green">APR ✓</span>
+          <span class="email-tag green">Brand ✓</span>
+        </div>
+        <div class="email-mock-fineprint">
+          Banco Santander, S.A. · TAE de referencia 3,20% (variable según producto y perfil). Información sin compromiso. <em>Rate shown is illustrative. Santander Spain's published 2026 fixed mortgage range: 2,96% NIR (full bonus) to 3,96% NIR (no bonus), APR 3,96-4,16%.</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">No human writes 24 variants by hand. The role shifts from <em>author</em> to <strong>creative director</strong> — set the brief, approve outputs, redirect the model when needed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 06 · Governance ─── -->
+<section class="chapter dark" id="s6" data-step="6">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 06 · The production</div>
+      <h2>Who owns the risk when AI writes? Everyone — gated.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>Every variant passes through four gates before publishing. Auto brand check using a model fine-tuned on Santander's tone. Compliance review routing for rate-bearing copy. Human marketing approval, with rejections feeding back into the model. And a full audit trail — model version, prompt, every edit, every approver, timestamped.</p>
+      <p>In banking, AI never publishes alone.</p>
+    </div>
+
+    <div class="gate-list reveal">
+      <div class="gate">
+        <div class="gate-num">1</div>
+        <div>
+          <h4>Brand check — automated</h4>
+          <p>Custom model trained on Santander tone, palette, voice. Catches off-brand wording in milliseconds.</p>
+        </div>
+        <span class="gate-tag">AI</span>
+      </div>
+      <div class="gate">
+        <div class="gate-num">2</div>
+        <div>
+          <h4>Compliance review</h4>
+          <p>Rate-bearing copy auto-routed. APR and disclaimers verified. MiFID-II suitability tags confirmed.</p>
+        </div>
+        <span class="gate-tag">Compliance</span>
+      </div>
+      <div class="gate">
+        <div class="gate-num">3</div>
+        <div>
+          <h4>Human approval</h4>
+          <p>Marketing lead signs off. Rejections become training data — the model learns Santander's taste over time.</p>
+        </div>
+        <span class="gate-tag">Marketing</span>
+      </div>
+      <div class="gate">
+        <div class="gate-num">4</div>
+        <div>
+          <h4>Audit trail</h4>
+          <p>Every asset: model, prompt, edits, approver, timestamp. Stored in AEM. Defensible end-to-end.</p>
+        </div>
+        <span class="gate-tag">AEM</span>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">The first question Compliance asks any AI initiative is <em>"if something goes wrong, who do we hold accountable?"</em> A four-gate workflow with full provenance is the answer. Without it, AI content can't scale in regulated industries — full stop.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07 · T-90 Reassurance ─── -->
+<section class="chapter" id="s7" data-step="7">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 07 · The arc plays out</div>
+      <h2>T-90 · The arc opens, gently.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>The first email arrives at 09:00 — no rate push, no urgency. Acknowledgement only: "Your mortgage matures in 90 days. Let's talk when you're ready." Two minutes later, a matching card surfaces in her mobile app home screen.</p>
+      <p>Same brief. Same brand. Different surface.</p>
+    </div>
+
+    <div class="trio reveal" style="grid-template-columns:1fr 1fr;">
+      <div class="trio-card email">
+        <div class="trio-card-head">📧 EMAIL · REASSURANCE</div>
+        <div class="trio-card-body">
+          <h5>María, su hipoteca llega a su cita en 3 meses.</h5>
+          <p>Antes de pensar en cambios, conversemos. Sin prisa, sin presión.</p>
+          <a href="#" class="email-mock-cta" style="font-size:12px;padding:8px 18px;">Ver mi hipoteca →</a>
+        </div>
+      </div>
+      <div class="trio-card app">
+        <div class="trio-card-head">📱 APP CARD · INICIO</div>
+        <div class="trio-card-body">
+          <h5>Su hipoteca · Renovación en 90 días</h5>
+          <p>Sin acción urgente. Estamos con usted. Pronto le mostraremos sus opciones — fijo, mixto, variable — con números claros.</p>
+          <a href="#" class="email-mock-cta" style="font-size:12px;padding:8px 18px;">Ver mi hipoteca</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">Two channels, one brief, one brand. No content was authored twice. The hardest part of multi-channel personalization — staying consistent without copy-pasting — is solved at the <strong>brief level</strong>, before anything is created.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 08 · T-45 Escalation ─── -->
+<section class="chapter dark" id="s8" data-step="8">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 08 · The arc plays out</div>
+      <h2>T-45 · The mindset shifts. So does the arc.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>In the last 7 days, María opened the comparison email, clicked through to Santander's rate-options page, and dwelled 4 minutes on the rate-switching content. She also opened the mortgage section of the app three times. NBX reads the signals: mindset is no longer <em>Reassurance</em>. It's <em>Comparison</em> — verging on Decision.</p>
+      <p>The next move escalates from automated touchpoints to her Relationship Manager. CSC generates a one-page personalized briefing for the RM — barriers, likely opportunity, recommended talking points — in real time.</p>
+    </div>
+
+    <div class="email-mock reveal">
+      <div class="email-mock-head" style="background:linear-gradient(135deg, var(--cat-amber), var(--orange-600));color:#fff;">
+        <span>📄 BRIEFING DE GESTIÓN · GENERADO POR CSC</span>
+        <span style="opacity:.8;">T-45</span>
+      </div>
+      <div class="email-mock-body">
+        <div style="font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--cat-amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Para: Gestor Personal · Oficina Chamartín</div>
+        <h3 style="font-size:18px;">Cliente: M. González — momento de decisión</h3>
+        <div style="background:var(--surface-sunken);border-radius:8px;padding:14px;border-left:3px solid var(--cat-cyan);margin-bottom:14px;font-size:14px;line-height:1.55;color:var(--text-secondary);">
+          <strong style="color:var(--text-primary);">Cómo está hoy:</strong> activa, evaluando opciones. Ha visitado dos veces nuestra página de comparación de tipos. Probable barrera: <em>incertidumbre del tipo variable</em>. Probable oportunidad: <em>upgrade familiar</em>.
+        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Hable de</div>
+        <ul style="font-size:14px;color:var(--text-secondary);line-height:1.6;padding-left:20px;margin-bottom:12px;">
+          <li>Tipo fijo 3,20% — certeza, no sorpresas EURIBOR</li>
+          <li>Mixto 5+resto a 2,95% — equilibrio que muchas familias eligen</li>
+          <li>Si surge mudanza: portabilidad sin trámites duplicados</li>
+        </ul>
+        <div class="email-tags">
+          <span class="email-tag">CSC-generated</span>
+          <span class="email-tag amber">NBX-routed</span>
+          <span class="email-tag green">Compliance ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">This is the operating-model shift. Marketing Ops is no longer a bottleneck between data and content. The moment a customer's mindset changes, the human who can act on it is briefed instantly — with <strong>personalised context</strong>, not a generic script.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 09 · T-15 Decision ─── -->
+<section class="chapter" id="s9" data-step="9">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 09 · The arc plays out</div>
+      <h2>T-15 · Three channels. One offer. One audit trail.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>In the final two weeks, three touchpoints fire in a coordinated 24-hour window. A Decision-tone email arrives in the morning. A push notification surfaces at lunchtime. The RM calls in the afternoon — already briefed on María's case from Section 08.</p>
+      <p>Three surfaces, three expressions — but identical commitments. Same offer (Tipo Fijo 3.15%). Same APR. Same disclaimers. Same audit trail.</p>
+    </div>
+
+    <div class="trio reveal">
+      <div class="trio-card email">
+        <div class="trio-card-head">📧 EMAIL · DECISION</div>
+        <div class="trio-card-body">
+          <h5>Su oferta personalizada está lista — caduca el 15 de junio.</h5>
+          <p>Tipo fijo <strong style="color:var(--santander-red);">3,15% bonificado</strong>. Sin comisiones. Su gestor tiene su carpeta lista.</p>
+          <a href="#" class="email-mock-cta" style="font-size:11px;padding:7px 14px;">Confirmar →</a>
+        </div>
+      </div>
+      <div class="trio-card app">
+        <div class="trio-card-head">📱 PUSH · NOTIFICATION</div>
+        <div class="trio-card-body">
+          <h5>María, su tipo fijo 3,15% caduca en 15 días</h5>
+          <p>Una firma con su gestor y todo queda hecho. Toque para confirmar.</p>
+          <a href="#" class="email-mock-cta" style="font-size:11px;padding:7px 14px;">Confirmar</a>
+        </div>
+      </div>
+      <div class="trio-card branch">
+        <div class="trio-card-head">🤝 RM · BRANCH CALL</div>
+        <div class="trio-card-body">
+          <h5>15-minute conversation, no commitment</h5>
+          <p>"He visto que ha mirado las opciones — antes de que decida, ¿le viene bien que repasemos juntos su carpeta?"</p>
+          <p style="font-size:11.5px;color:var(--text-muted);font-style:italic;">Briefed by CSC with the same context as email + app.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">This is the regulatory point. CSC + NBX don't just speed things up. They make <strong>consistency at scale</strong> actually possible. That's what compliance teams care about most.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 10 · Renewal & Suppress ─── -->
+<section class="chapter dark" id="s10" data-step="10">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 10 · The arc plays out</div>
+      <h2>T-12 · She signs. Three channels go silent.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>Three days before maturity, María signs Tipo Fijo 3.15% in branch. The signature triggers an instant suppression cascade — every queued touchpoint is cancelled. No "congratulations on your renewal" email two days later. No app push for an offer already accepted.</p>
+      <p>The next arc — family-home upgrade, detected from her T-90 search intent — quietly opens.</p>
+    </div>
+
+    <div class="celebration reveal">
+      <div class="emoji">🎉</div>
+      <h3>María renewed — Tipo Fijo 3,15%</h3>
+      <p>Cuota nueva: <strong>€1.054/mes</strong> · 25 años fijo · firmado en oficina · 3 días antes del vencimiento</p>
+    </div>
+
+    <div class="suppression reveal">
+      <div class="supp-row">
+        <span class="label"><span class="icon">📧</span>Email arc</span>
+        <span class="status">❌ Suppressed</span>
+      </div>
+      <div class="supp-row">
+        <span class="label"><span class="icon">📱</span>App push</span>
+        <span class="status">❌ Suppressed</span>
+      </div>
+      <div class="supp-row">
+        <span class="label"><span class="icon">🤝</span>RM follow-up</span>
+        <span class="status">❌ Cancelled</span>
+      </div>
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">The least-celebrated and most-important capability. Suppression is what separates <strong>orchestration from spam</strong> — and signals to the customer that the bank is paying attention.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 11 · Measurement ─── -->
+<section class="chapter" id="s11" data-step="11">
+  <div class="container-narrow">
+    <div class="chapter-header reveal">
+      <div class="chapter-num">Section 11 · Outcome</div>
+      <h2>What 78 days of orchestration delivered.</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p>One customer, one mortgage, one designed arc. The numbers below aren't just about retention rate. They're about the operating model that made it feasible at all — content production fast enough to keep up with mindset shifts, governance robust enough to satisfy Compliance, suppression precise enough to feel like care.</p>
+    </div>
+
+    <div class="metrics reveal">
+      <div class="metric green">
+        <div class="label">Renewal lift</div>
+        <div class="value">+25-40%</div>
+        <div class="sub">Modeled · vs. single-touch control</div>
+      </div>
+      <div class="metric purple">
+        <div class="label">Time-to-content</div>
+        <div class="value">−70%</div>
+        <div class="sub">Forrester TEI Adobe CSC (2024)</div>
+      </div>
+      <div class="metric amber">
+        <div class="label">Cost per variant</div>
+        <div class="value">−30%</div>
+        <div class="sub">Adobe State of CX in FS (2025)</div>
+      </div>
+      <div class="metric curve">
+        <div class="label">NPS post-renewal</div>
+        <div class="value">9 / 10</div>
+        <div class="sub">Illustrative · persona-specific</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:18px;padding:14px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);font-size:12.5px;color:var(--text-muted);line-height:1.55;">
+      <strong style="color:var(--text-secondary);">On the numbers:</strong>
+      Renewal lift modeled on banking next-best-action benchmarks (personalization revenue lift typically 5–15%; profit lift of 25%+ from a 5% retention improvement, per Target Group 2025). Time-to-content per Forrester's Total Economic Impact™ of Adobe Content Supply Chain (2024): 70% reduction in time managing content and experiences for a composite organization. Cost per variant per Adobe 2025 State of CX in Financial Services (Incisiv, n=518): FS firms scaling GenAI reported 26% drop in cost per content piece; 30% used here as a directional estimate. NPS is persona-illustrative, not a portfolio average.
+    </div>
+
+    <div class="takeaway reveal">
+      <div class="icon">💡</div>
+      <div class="takeaway-content">
+        <div class="takeaway-label">Why this matters</div>
+        <div class="takeaway-text">What you've just read applied to mortgage renewal. The same engine works for cards, savings onboarding, life-event upgrades — <strong>any moment where a customer's mindset and the bank's offer must meet at the right time, in the right way</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<div class="container-wide">
+  <div class="cta-block reveal">
+    <svg class="curve" viewBox="0 0 400 400" preserveAspectRatio="none">
+      <path d="M 400 60 Q 240 120 200 280 T 100 400" fill="none" stroke="var(--curve)" stroke-width="3" opacity=".85"/>
+      <circle cx="200" cy="280" r="5" fill="var(--curve)"/>
+    </svg>
+    <div class="cta-block-content">
+      <div class="eyebrow">For Santander · The proposition</div>
+      <h2>A mortgage maturity is not a campaign. It's <span class="accent">a 78-day arc</span> across three mindsets, three channels, and one human gestor.</h2>
+      <p>Orchestrated by Adobe Journey Optimizer. Fueled by Adobe GenStudio. Governed end-to-end. Delivered by Coforge.</p>
+      <a href="mailto:" class="cta-button">Let's talk <span class="arrow">→</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Sources & disclosure ─── -->
+<div class="container" style="margin-top:48px;margin-bottom:48px;">
+  <div style="background:var(--surface-sunken);border-radius:var(--radius-xl);padding:36px;">
+    <div style="font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;">
+      Sources & disclosure
+    </div>
+    <h3 style="font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.3;color:var(--text-primary);margin-bottom:20px;">
+      Every claim in this story is built on public, third-party research.
+    </h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+      <div>
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Primary research sources</div>
+        <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--text-secondary);line-height:1.7;">
+          <li>Forrester, <em>Total Economic Impact™ of Adobe's Content Supply Chain Solution</em>, May 2024. Composite organization; 310% ROI, 70% reduction in time managing content/experiences, 40%+ reduction in hours creating and reviewing assets, 30% asset reuse efficiency.</li>
+          <li>Adobe / Incisiv, <em>2025 State of Customer Experience in Financial Services in an AI-Driven World</em>, Q2 2025. n=518 FS leaders across 9 markets; 66% from $1B+ companies; 55% VP-level or above.</li>
+          <li>Forrester, <em>Total Economic Impact™ of Adobe Creative Solutions for Enterprise powered by Firefly</em>, 2024.</li>
+          <li>Banco Santander España, <em>Hipoteca fija</em> and <em>Hipoteca variable</em> published rates, bancosantander.es, accessed 2026.</li>
+          <li>Banco de España, EURIBOR 12-month reference (BdE official publication, April 2026: 2,565%).</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Adobe product capabilities cited</div>
+        <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--text-secondary);line-height:1.7;">
+          <li>Adobe Journey Optimizer — next-best-action decisioning, omnichannel orchestration (Adobe product description, 2026).</li>
+          <li>Adobe GenStudio — content supply chain, Firefly composition, Custom Models for brand-locked generation (Adobe Summit 2025 announcements).</li>
+          <li>Adobe AEM Assets, Workfront — DAM and workflow approval audit trail.</li>
+          <li>Partner integrations for regulated industries (IntelligenceBank, Lithero, Saifr, Stensul, PwC, Acxiom) confirmed for FS workflows (Adobe Summit 2025).</li>
+          <li>Banco Santander selected Adobe Experience Cloud in 2020, displacing legacy CRM systems (publicly documented vendor selection).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="padding-top:20px;border-top:1px solid var(--border-default);">
+      <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Disclosure</div>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:8px;">
+        <strong>María González Ruiz is a fictional persona</strong> constructed to illustrate a typical affluent Santander mortgage customer scenario. All names, transactions, dates, rates, retention figures, and modeled outcomes in this story are illustrative. No real Santander customer data is used or implied.
+      </p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.65;margin:0;">
+        Metrics labelled "modeled" reflect Coforge analysis grounded in the published benchmarks above. Actual outcomes will vary based on Santander's existing platform configuration, customer mix, baseline performance, and implementation scope. This document is a perspective, not a performance commitment.
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="brand"><span class="co">co</span>forge × Santander</div>
+  <div>Adobe GenStudio · Adobe Journey Optimizer · AEP · Workfront · AEM Assets · Content Analytics</div>
+  <div style="margin-top:14px;color:var(--gray-400);font-size:12px;">© 2026 Coforge. A worked example for illustration only. María González Ruiz is a fictional persona.</div>
+</footer>
+
+<script>
+// ─── Scroll progress + chapter highlight ───
+const sections = document.querySelectorAll('[data-step]');
+const navLinks = document.querySelectorAll('.chapter-nav a');
+const progressFill = document.getElementById('progress-fill');
+const progressText = document.getElementById('progress-text');
+
+const stepLabels = ['Intro','The Moment','Signal Capture','NBX Decisioning','CSC Handoff','AI Content Studio','Governance','T-90 Reassurance','T-45 Escalation','T-15 Decision','Renewal','Measurement'];
+
+// IntersectionObserver for current chapter
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const step = parseInt(e.target.dataset.step);
+      const pct = ((step + 1) / 12) * 100;
+      progressFill.style.width = pct + '%';
+      progressText.textContent = `Step ${String(step).padStart(2,'0')} · ${stepLabels[step]}`;
+      navLinks.forEach(l => {
+        const s = parseInt(l.dataset.step);
+        l.classList.toggle('active', s === step);
+        l.classList.toggle('done', s < step);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => obs.observe(s));
+// Also observe hero
+const hero = document.getElementById('hero');
+hero.dataset.step = 0;
+obs.observe(hero);
+
+// ─── Reveal on scroll ───
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
+</body>
+</html>
